@@ -15,18 +15,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
         type="application/javascript"></script>
-       
-        <!--
-        <nav>
-            <div class="nav-wrapper black">
-              <a href="#" class="brand-logo">Morpheus</a>
-              
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="https://github.com/MorpheusAIs">Github</a></li>
-              </ul>
-            </div>
-          </nav>
-          -->
 
 <div class="container">
   <center>
@@ -115,12 +103,66 @@
       
 
     </div>
+
+    <div class="row" id="balances3">
+        <div class="col s12 m6">
+          <div class="card ">
+            <div class="card-content">
+              <span class="card-title">Code Contribution Weights</span>
+              
+              
+
+              <span id="userBalanceWeights"></span>
+            </div>
+
+          </div>
+        </div>
+    </div>
+</div>
+        
 </body>
 <script>
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+function updateWeightsData(){
+data={}
+resString=httpGet("https://raw.githubusercontent.com/MorpheusAIs/Docs/main/Contributions/Code%20-%20Proof_Of_Contribution.md")
+splitStrin="| Wallet Address | Link to Work | Weight of Value Contributed (Weights) | Description of Contribution "
+dataString=resString.split(splitStrin)[1]
+lines = dataString.split("\n")
+
+for (i in lines){
+    try{
+    add=lines[i].split("|")[1].trim().toLowerCase()
+    if (add in data){
+        data[add]=data[add]+parseInt(lines[i].split("|")[3])
+    }
+    else{
+        data[add]=parseInt(lines[i].split("|")[3])
+    }
+    
+    }
+    catch{
+        console.log("Line formatted wrong!")
+    }
+    
+}
+return (data)
+
+}
+
+var weightsData=updateWeightsData()
+
 
 
 async function  getBalance(account){
   if(ethers.utils.isAddress(account)){
+    document.getElementById("userBalanceWeights").innerHTML=weightsData[account.toLowerCase()]
     document.getElementById("wrongAddress").style.display="none"
     document.getElementById("loading").style.display="block"
     const provider = new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com	");
@@ -133,7 +175,7 @@ async function  getBalance(account){
     document.getElementById("userBalanceCapital").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
     balanceCapital = await contract.getCurrentUserReward("2",account)
     document.getElementById("userBalanceCommunity").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
-
+    
     document.getElementById("loading").style.display="none"
 
   }
