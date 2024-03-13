@@ -75,6 +75,9 @@
             </div>
           </div>
       </div>
+    </div>
+  </div>
+
       <div class="row" id="balances2">
         <div class="col s12 m6">
           <div class="card ">
@@ -102,7 +105,7 @@
       </div>
       
 
-    </div>
+    
 
     <div class="row" id="balances3">
         <div class="col s12 m6">
@@ -112,14 +115,27 @@
               
               
 
-              <span id="userBalanceWeights"></span>
+              <span id="userBalanceWeights"></span><br>
+              <span id="userBalanceWeightsPer"></span>
+            </div>
+
+          </div>
+        </div>
+        <div class="col s12 m6">
+          <div class="card ">
+            <div class="card-content">
+              <span class="card-title">Code Contribution Weights - Total Distributed</span>
+              
+              
+
+              <span id="totalBalanceWeights"></span>
             </div>
 
           </div>
         </div>
     </div>
 </div>
-        
+</div>        
 </body>
 <script>
 function httpGet(theUrl)
@@ -135,12 +151,13 @@ resString=httpGet("https://raw.githubusercontent.com/MorpheusAIs/Docs/main/Contr
 splitStrin="| Wallet Address | Link to Work | Weight of Value Contributed (Weights) | Description of Contribution "
 dataString=resString.split(splitStrin)[1]
 lines = dataString.split("\n")
-
+var total=0
 for (i in lines){
     try{
     add=lines[i].split("|")[1].trim().toLowerCase()
     if (add in data){
         data[add]=data[add]+parseInt(lines[i].split("|")[3])
+        total=total+parseInt(lines[i].split("|")[3])
     }
     else{
         data[add]=parseInt(lines[i].split("|")[3])
@@ -152,6 +169,7 @@ for (i in lines){
     }
     
 }
+document.getElementById("totalBalanceWeights").innerHTML=total
 return (data)
 
 }
@@ -163,6 +181,11 @@ var weightsData=updateWeightsData()
 async function  getBalance(account){
   if(ethers.utils.isAddress(account)){
     document.getElementById("userBalanceWeights").innerHTML=weightsData[account.toLowerCase()]
+    document.getElementById("userBalanceWeightsPer").innerHTML=
+   (parseInt(weightsData[account.toLowerCase()])/parseInt(document.getElementById("totalBalanceWeights").innerHTML)*100).toFixed(4) +" % of total weights distributed"
+
+
+
     document.getElementById("wrongAddress").style.display="none"
     document.getElementById("loading").style.display="block"
     const provider = new ethers.providers.JsonRpcProvider("https://cloudflare-eth.com/");
