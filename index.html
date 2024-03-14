@@ -174,15 +174,12 @@ return (data)
 
 }
 
-var weightsData=updateWeightsData()
 
 
 
 async function  getBalance(account){
   if(ethers.utils.isAddress(account)){
-    document.getElementById("userBalanceWeights").innerHTML=weightsData[account.toLowerCase()]
-    document.getElementById("userBalanceWeightsPer").innerHTML=
-   (parseInt(weightsData[account.toLowerCase()])/parseInt(document.getElementById("totalBalanceWeights").innerHTML)*100).toFixed(4) +" % of total weights distributed"
+    
 
 
 
@@ -198,6 +195,17 @@ async function  getBalance(account){
     document.getElementById("userBalanceCapital").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
     balanceCapital = await contract.getCurrentUserReward("2",account)
     document.getElementById("userBalanceCommunity").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
+    poolsData= await contract.poolsData("1")
+    totalWeights=ethers.utils.formatUnits(poolsData[2],0)
+    balanceWeights = await contract.usersData(account,"1")
+    userWeights=ethers.utils.formatUnits(balanceWeights[1],0)
+
+  
+    document.getElementById("userBalanceWeights").innerHTML=userWeights
+    document.getElementById("userBalanceWeightsPer").innerHTML=(userWeights/totalWeights*100).toFixed(4) + " % of total distributed weights"
+    document.getElementById("totalBalanceWeights").innerHTML=totalWeights
+
+    
     
     document.getElementById("loading").style.display="none"
 
