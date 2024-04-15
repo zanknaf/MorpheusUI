@@ -228,9 +228,10 @@ async function  getBalance(account){
     currentReward=initReward-(decrease*daysDecrease)
     console.log(currentReward)
     poolsCapital= await contract.pools("0")
+    poolsCapitalData= await contract.poolsData("0")
     balanceWeightsCapital = await contract.usersData(account,"0")
     userWeightsCapital=ethers.utils.formatUnits(balanceWeightsCapital[1],18)
-    totalWeightsCapital=ethers.utils.formatUnits(poolsCapital[2],18)
+    totalWeightsCapital=ethers.utils.formatUnits(poolsCapitalData[2],18)
     startTimeCapital=poolsCapital[0]
     intervalCapital=poolsCapital[1]
     initRewardCapital=ethers.utils.formatUnits(poolsCapital[5],18)
