@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Morpheus AI - friendly UI</title>
@@ -8,39 +9,49 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
+
 <body>
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-        type="application/javascript"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 
-<div class="container">
-  <center>
-  <img class="responsive-img" src="logo-top.png" />
-  <h1>Check MOR Balance</h1>
-</center>
-<br>
-<div class="row">
-    <div class="col s12">
+  <div class="container">
+    <center>
+      <img class="responsive-img" src="logo-top.png" />
+    </center>
+    <center>
+      <div class="flex col s12 mb-10">
+        <h3> 10 Days until May 8th 2024 & MOR Tokens Become Claimable On Arbitrum -
+          <a style="text-decoration: underline;" target="_blank"
+            href="https://github.com/MorpheusAIs/Docs/blob/main/Guides/MOR%20Uniswap%20Testing%20Guide.md">Click
+            here to
+            check Testers
+            Guide.
+          </a>
+        </h3>
+      </div>
+    </center>
+    <div class="row">
+      <center>
+        <h1>Check MOR Balance</h1>
+      </center>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col s12">
         <div class="card ">
-        <div class="card-content">
-          <span class="card-title">Input your ETH address</span>
-          
-          <input id="userAccount" placeholder="Ethereum address"></input>
-          
-
-
-        </div>
-        <div class="card-action">
-            <button  class="btn black" onclick='getBalance(document.getElementById("userAccount").value)''>Query</button>
+          <div class="card-content">
+            <span class="card-title">Input your ETH address</span>
+            <input id="userAccount" placeholder="Ethereum address"></input>
+          </div>
+          <div class="card-action">
+            <button class="btn black" onclick='getBalance(document.getElementById("userAccount").value)''>Query</button>
             <div id="wrongAddress" style="display:none">
             <i class=" material-icons">error</i> <span>Address is not valid ETH address!</span>
           </div>
         </div>
     </div>
-    
     <center>
         <div id="loading" style="display:none">
         <span>Querying blockchain...</span>
@@ -55,9 +66,6 @@
           <div class="card ">
             <div class="card-content">
               <span class="card-title">MOR balance - Code Contributions</span>
-              
-              
-
               <span id="userBalance"></span>
               <br>
               <span id="userBalanceWeightsDaily"></span>
@@ -69,194 +77,149 @@
             <div class="card ">
               <div class="card-content">
                 <span class="card-title">MOR balance - Capital Contributions</span>
-                
-                
                 <span id="userBalanceCapital"></span>
                 <br>
                 <span id="userBalanceCapitalDaily"></span>
               </div>
-
             </div>
           </div>
       </div>
     </div>
   </div>
-
       <div class="row" id="balances2">
         <div class="col s12 m6">
           <div class="card ">
             <div class="card-content">
               <span class="card-title">MOR balance - Compute contributions</span>
-              
-              
               <span>Pool is not active yet.</span>
               <span id="userBalanceCompute"></span>
             </div>
-
           </div>
         </div>
         <div class="col s12 m6">
             <div class="card ">
               <div class="card-content">
                 <span class="card-title">MOR balance - Community Contributions</span>
-                
-                
                 <span id="userBalanceCommunity"></span>
               </div>
-
             </div>
           </div>
       </div>
-      
-
-    
-
     <div class="row" id="balances3">
         <div class="col s12 m6">
           <div class="card ">
             <div class="card-content">
               <span class="card-title">Code Contribution Weights</span>
-              
-              
-
               <span id="userBalanceWeights"></span><br>
               <span id="userBalanceWeightsPer"></span><br>
               <span id="userBalanceWeightsDaily"></span>
             </div>
-
           </div>
         </div>
         <div class="col s12 m6">
           <div class="card ">
             <div class="card-content">
               <span class="card-title">Code Contribution Weights - Total Distributed</span>
-              
-              
-
               <span id="totalBalanceWeights"></span>
             </div>
-
           </div>
         </div>
     </div>
 </div>
-<center><button  class="btn black" onclick='document.getElementById("allWeights").style.display="block"'>Show all weights</button></center>
-
+<center>
+  <button  class="btn black" onclick=' document.getElementById("allWeights").style.display="block"'>Show all weights
+  </button>
+</center>
 <div class="row" id="allWeights" style="display:none">
   <div class="col s6 offset-s3">
-
 <h2>Feature under development...</h2>
-
 </div>
 </div>
-
-
-
-
 </div>        
 </body>
 <script>
-function httpGet(theUrl)
-{
+  function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
     return xmlHttp.responseText;
-}
-function updateWeightsData(){
-data={}
-resString=httpGet("https://raw.githubusercontent.com/MorpheusAIs/Docs/main/Contributions/Code%20-%20Proof_Of_Contribution.md")
-splitStrin="| Wallet Address | Link to Work | Weight of Value Contributed (Weights) | Description of Contribution "
-dataString=resString.split(splitStrin)[1]
-lines = dataString.split("\n")
-var total=0
-for (i in lines){
-    try{
-    add=lines[i].split("|")[1].trim().toLowerCase()
-    if (add in data){
-        data[add]=data[add]+parseInt(lines[i].split("|")[3])
-        total=total+parseInt(lines[i].split("|")[3])
-    }
-    else{
-        data[add]=parseInt(lines[i].split("|")[3])
-    }
-    
-    }
-    catch{
+  }
+  function updateWeightsData() {
+    data = {}
+    resString = httpGet("https://raw.githubusercontent.com/MorpheusAIs/Docs/main/Contributions/Code%20-%20Proof_Of_Contribution.md")
+    splitStrin = "| Wallet Address | Link to Work | Weight of Value Contributed (Weights) | Description of Contribution "
+    dataString = resString.split(splitStrin)[1]
+    lines = dataString.split("\n")
+    var total = 0
+    for (i in lines) {
+      try {
+        add = lines[i].split("|")[1].trim().toLowerCase()
+        if (add in data) {
+          data[add] = data[add] + parseInt(lines[i].split("|")[3])
+          total = total + parseInt(lines[i].split("|")[3])
+        }
+        else {
+          data[add] = parseInt(lines[i].split("|")[3])
+        }
+
+      }
+      catch {
         console.log("Line formatted wrong!")
+      }
+
     }
-    
-}
-document.getElementById("totalBalanceWeights").innerHTML=total
-return (data)
-
-}
-
-
-
-
-async function  getBalance(account){
-  if(ethers.utils.isAddress(account)){
-    
-
-
-
-    document.getElementById("wrongAddress").style.display="none"
-    document.getElementById("loading").style.display="block"
-    const provider = new ethers.providers.JsonRpcProvider("https://cloudflare-eth.com/");
-    const morpheusAI = "0x47176B2Af9885dC6C4575d4eFd63895f7Aaa4790";
-    const abi =[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"bytes","name":"uniqueId","type":"bytes"}],"name":"OverplusBridged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"poolId","type":"uint256"},{"components":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"indexed":false,"internalType":"struct IDistribution.Pool","name":"pool","type":"tuple"}],"name":"PoolCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"poolId","type":"uint256"},{"components":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"indexed":false,"internalType":"struct IDistribution.Pool","name":"pool","type":"tuple"}],"name":"PoolEdited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"poolId","type":"uint256"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"address","name":"receiver","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"UserClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"poolId","type":"uint256"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"UserStaked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"poolId","type":"uint256"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"UserWithdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"depositToken_","type":"address"},{"internalType":"address","name":"l1Sender_","type":"address"},{"components":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"internalType":"struct IDistribution.Pool[]","name":"poolsInfo_","type":"tuple[]"}],"name":"Distribution_init","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"gasLimit_","type":"uint256"},{"internalType":"uint256","name":"maxFeePerGas_","type":"uint256"},{"internalType":"uint256","name":"maxSubmissionCost_","type":"uint256"}],"name":"bridgeOverplus","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"address","name":"receiver_","type":"address"}],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"internalType":"struct IDistribution.Pool","name":"pool_","type":"tuple"}],"name":"createPool","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"depositToken","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"components":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"internalType":"struct IDistribution.Pool","name":"pool_","type":"tuple"}],"name":"editPool","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"address","name":"user_","type":"address"}],"name":"getCurrentUserReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"uint128","name":"startTime_","type":"uint128"},{"internalType":"uint128","name":"endTime_","type":"uint128"}],"name":"getPeriodReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isNotUpgradeable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"l1Sender","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"address[]","name":"users_","type":"address[]"},{"internalType":"uint256[]","name":"amounts_","type":"uint256[]"}],"name":"manageUsersInPrivatePool","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"overplus","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"pools","outputs":[{"internalType":"uint128","name":"payoutStart","type":"uint128"},{"internalType":"uint128","name":"decreaseInterval","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriod","type":"uint128"},{"internalType":"uint128","name":"claimLockPeriod","type":"uint128"},{"internalType":"uint128","name":"withdrawLockPeriodAfterStake","type":"uint128"},{"internalType":"uint256","name":"initialReward","type":"uint256"},{"internalType":"uint256","name":"rewardDecrease","type":"uint256"},{"internalType":"uint256","name":"minimalStake","type":"uint256"},{"internalType":"bool","name":"isPublic","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolsData","outputs":[{"internalType":"uint128","name":"lastUpdate","type":"uint128"},{"internalType":"uint256","name":"rate","type":"uint256"},{"internalType":"uint256","name":"totalDeposited","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proxiableUUID","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"removeUpgradeability","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"uint256","name":"amount_","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalDepositedInPublicPools","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"usersData","outputs":[{"internalType":"uint128","name":"lastStake","type":"uint128"},{"internalType":"uint256","name":"deposited","type":"uint256"},{"internalType":"uint256","name":"rate","type":"uint256"},{"internalType":"uint256","name":"pendingRewards","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"poolId_","type":"uint256"},{"internalType":"uint256","name":"amount_","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}]
-    const contract = new ethers.Contract(morpheusAI, abi, provider);
-    balance = await contract.getCurrentUserReward("1",account)
-    document.getElementById("userBalance").innerHTML=ethers.utils.formatUnits(balance, 18) + " MOR"
-    balanceCapital = await contract.getCurrentUserReward("0",account)
-    document.getElementById("userBalanceCapital").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
-    balanceCapital = await contract.getCurrentUserReward("2",account)
-    document.getElementById("userBalanceCommunity").innerHTML=ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
-    poolsData= await contract.poolsData("1")
-    totalWeights=ethers.utils.formatUnits(poolsData[2],0)
-    balanceWeights = await contract.usersData(account,"1")
-    userWeights=ethers.utils.formatUnits(balanceWeights[1],0)
-    userWeightsCapital=ethers.utils.formatUnits(balanceWeights[1],0)
-    pools= await contract.pools("1")
-    startTime=pools[0]
-    interval=pools[1]
-    initReward=ethers.utils.formatUnits(pools[5],18)
-    decrease=ethers.utils.formatUnits(pools[6],18)
-    timestampToday = new Date().getTime() / 1000;
-    daysDecrease=Math.floor((timestampToday-startTime)/interval)
-    currentReward=initReward-(decrease*daysDecrease)
-    console.log(currentReward)
-    poolsCapital= await contract.pools("0")
-    poolsCapitalData= await contract.poolsData("0")
-    balanceWeightsCapital = await contract.usersData(account,"0")
-    userWeightsCapital=ethers.utils.formatUnits(balanceWeightsCapital[1],18)
-    totalWeightsCapital=ethers.utils.formatUnits(poolsCapitalData[2],18)
-    startTimeCapital=poolsCapital[0]
-    intervalCapital=poolsCapital[1]
-    initRewardCapital=ethers.utils.formatUnits(poolsCapital[5],18)
-    decreaseCapital=ethers.utils.formatUnits(poolsCapital[6],18)
-    daysDecreaseCapital=Math.floor((timestampToday-startTimeCapital)/intervalCapital)
-    currentRewardCapital=initReward-(decreaseCapital*daysDecreaseCapital)
-
-  
-    document.getElementById("userBalanceWeights").innerHTML=userWeights
-    document.getElementById("userBalanceWeightsPer").innerHTML=(userWeights/totalWeights*100).toFixed(4) + " % of total distributed weights"
-    document.getElementById("userBalanceWeightsDaily").innerHTML=(userWeights/totalWeights)*currentReward + " MOR per day"
-    document.getElementById("totalBalanceWeights").innerHTML=totalWeights
-    document.getElementById("userBalanceCapitalDaily").innerHTML=(userWeightsCapital/totalWeightsCapital)*currentRewardCapital + " MOR per day"
-
-    
-    
-    document.getElementById("loading").style.display="none"
+    document.getElementById("totalBalanceWeights").innerHTML = total
+    return (data)
 
   }
-  else{
-    document.getElementById("wrongAddress").style.display="block"
+  async function getBalance(account) {
+    if (ethers.utils.isAddress(account)) {
+      document.getElementById("wrongAddress").style.display = "none"
+      document.getElementById("loading").style.display = "block"
+      const provider = new ethers.providers.JsonRpcProvider("https://cloudflare-eth.com/");
+      const morpheusAI = "0x47176B2Af9885dC6C4575d4eFd63895f7Aaa4790";
+      const abi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "previousAdmin", "type": "address" }, { "indexed": false, "internalType": "address", "name": "newAdmin", "type": "address" }], "name": "AdminChanged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "beacon", "type": "address" }], "name": "BeaconUpgraded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "uint8", "name": "version", "type": "uint8" }], "name": "Initialized", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "bytes", "name": "uniqueId", "type": "bytes" }], "name": "OverplusBridged", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "poolId", "type": "uint256" }, { "components": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "indexed": false, "internalType": "struct IDistribution.Pool", "name": "pool", "type": "tuple" }], "name": "PoolCreated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "poolId", "type": "uint256" }, { "components": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "indexed": false, "internalType": "struct IDistribution.Pool", "name": "pool", "type": "tuple" }], "name": "PoolEdited", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "implementation", "type": "address" }], "name": "Upgraded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "poolId", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "address", "name": "receiver", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "UserClaimed", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "poolId", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "UserStaked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "poolId", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "user", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "UserWithdrawn", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "depositToken_", "type": "address" }, { "internalType": "address", "name": "l1Sender_", "type": "address" }, { "components": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "internalType": "struct IDistribution.Pool[]", "name": "poolsInfo_", "type": "tuple[]" }], "name": "Distribution_init", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "gasLimit_", "type": "uint256" }, { "internalType": "uint256", "name": "maxFeePerGas_", "type": "uint256" }, { "internalType": "uint256", "name": "maxSubmissionCost_", "type": "uint256" }], "name": "bridgeOverplus", "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "address", "name": "receiver_", "type": "address" }], "name": "claim", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "components": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "internalType": "struct IDistribution.Pool", "name": "pool_", "type": "tuple" }], "name": "createPool", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "depositToken", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "components": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "internalType": "struct IDistribution.Pool", "name": "pool_", "type": "tuple" }], "name": "editPool", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "address", "name": "user_", "type": "address" }], "name": "getCurrentUserReward", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "uint128", "name": "startTime_", "type": "uint128" }, { "internalType": "uint128", "name": "endTime_", "type": "uint128" }], "name": "getPeriodReward", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "isNotUpgradeable", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "l1Sender", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "address[]", "name": "users_", "type": "address[]" }, { "internalType": "uint256[]", "name": "amounts_", "type": "uint256[]" }], "name": "manageUsersInPrivatePool", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "overplus", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "pools", "outputs": [{ "internalType": "uint128", "name": "payoutStart", "type": "uint128" }, { "internalType": "uint128", "name": "decreaseInterval", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "claimLockPeriod", "type": "uint128" }, { "internalType": "uint128", "name": "withdrawLockPeriodAfterStake", "type": "uint128" }, { "internalType": "uint256", "name": "initialReward", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDecrease", "type": "uint256" }, { "internalType": "uint256", "name": "minimalStake", "type": "uint256" }, { "internalType": "bool", "name": "isPublic", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "poolsData", "outputs": [{ "internalType": "uint128", "name": "lastUpdate", "type": "uint128" }, { "internalType": "uint256", "name": "rate", "type": "uint256" }, { "internalType": "uint256", "name": "totalDeposited", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "proxiableUUID", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "removeUpgradeability", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "uint256", "name": "amount_", "type": "uint256" }], "name": "stake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "totalDepositedInPublicPools", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newImplementation", "type": "address" }], "name": "upgradeTo", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newImplementation", "type": "address" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "upgradeToAndCall", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "name": "usersData", "outputs": [{ "internalType": "uint128", "name": "lastStake", "type": "uint128" }, { "internalType": "uint256", "name": "deposited", "type": "uint256" }, { "internalType": "uint256", "name": "rate", "type": "uint256" }, { "internalType": "uint256", "name": "pendingRewards", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "poolId_", "type": "uint256" }, { "internalType": "uint256", "name": "amount_", "type": "uint256" }], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" }]
+      const contract = new ethers.Contract(morpheusAI, abi, provider);
+      balance = await contract.getCurrentUserReward("1", account)
+      document.getElementById("userBalance").innerHTML = ethers.utils.formatUnits(balance, 18) + " MOR"
+      balanceCapital = await contract.getCurrentUserReward("0", account)
+      document.getElementById("userBalanceCapital").innerHTML = ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
+      balanceCapital = await contract.getCurrentUserReward("2", account)
+      document.getElementById("userBalanceCommunity").innerHTML = ethers.utils.formatUnits(balanceCapital, 18) + " MOR"
+      poolsData = await contract.poolsData("1")
+      totalWeights = ethers.utils.formatUnits(poolsData[2], 0)
+      balanceWeights = await contract.usersData(account, "1")
+      userWeights = ethers.utils.formatUnits(balanceWeights[1], 0)
+      userWeightsCapital = ethers.utils.formatUnits(balanceWeights[1], 0)
+      pools = await contract.pools("1")
+      startTime = pools[0]
+      interval = pools[1]
+      initReward = ethers.utils.formatUnits(pools[5], 18)
+      decrease = ethers.utils.formatUnits(pools[6], 18)
+      timestampToday = new Date().getTime() / 1000;
+      daysDecrease = Math.floor((timestampToday - startTime) / interval)
+      currentReward = initReward - (decrease * daysDecrease)
+      console.log(currentReward)
+      poolsCapital = await contract.pools("0")
+      poolsCapitalData = await contract.poolsData("0")
+      balanceWeightsCapital = await contract.usersData(account, "0")
+      userWeightsCapital = ethers.utils.formatUnits(balanceWeightsCapital[1], 18)
+      totalWeightsCapital = ethers.utils.formatUnits(poolsCapitalData[2], 18)
+      startTimeCapital = poolsCapital[0]
+      intervalCapital = poolsCapital[1]
+      initRewardCapital = ethers.utils.formatUnits(poolsCapital[5], 18)
+      decreaseCapital = ethers.utils.formatUnits(poolsCapital[6], 18)
+      daysDecreaseCapital = Math.floor((timestampToday - startTimeCapital) / intervalCapital)
+      currentRewardCapital = initReward - (decreaseCapital * daysDecreaseCapital)
+      document.getElementById("userBalanceWeights").innerHTML = userWeights
+      document.getElementById("userBalanceWeightsPer").innerHTML = (userWeights / totalWeights * 100).toFixed(4) + " % of total distributed weights"
+      document.getElementById("userBalanceWeightsDaily").innerHTML = (userWeights / totalWeights) * currentReward + " MOR per day"
+      document.getElementById("totalBalanceWeights").innerHTML = totalWeights
+      document.getElementById("userBalanceCapitalDaily").innerHTML = (userWeightsCapital / totalWeightsCapital) * currentRewardCapital + " MOR per day"
+      document.getElementById("loading").style.display = "none"
+    }
+    else {
+      document.getElementById("wrongAddress").style.display = "block"
+    }
   }
-
-}
-
 </script>
-
-
